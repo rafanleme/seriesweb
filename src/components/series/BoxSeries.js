@@ -5,7 +5,7 @@ import TabelaSeries from './TabelaSeries'
 
 class BoxSeries extends Component {
 
-	constructor() {
+  constructor() {
     super()
     this.state = {
       series: []
@@ -18,7 +18,7 @@ class BoxSeries extends Component {
     this.setState({ series: series })
   }
 
-  enviaDados = async (serie) =>{
+  enviaDados = async (serie) => {
     console.log('enviando dados....')
     serie.ano_lancamento = serie.lancamento
     delete serie.lancamento
@@ -31,27 +31,33 @@ class BoxSeries extends Component {
       },
       body: JSON.stringify(serie)
     }
-    try{
-      const retorno = await fetch('http://localhost:3000/series',params)
-      if(retorno.status === 201){
+    try {
+      const retorno = await fetch('http://localhost:3000/series', params)
+      if (retorno.status === 201) {
         console.log('enviado com sucesso')
         serie = await retorno.json()
-        this.setState({series: [...this.state.series, serie]})
+        this.setState({ series: [...this.state.series, serie] })
       }
-    }catch(erro){
+    } catch (erro) {
       console.log(erro)
     }
-    
+
   }
 
-	render() {
-		return (
-			<div>
-				<FormularioSeries enviaDados={this.enviaDados} />
-				<TabelaSeries series={this.state.series} />
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4">
+            <FormularioSeries enviaDados={this.enviaDados} />
+          </div>
+          <div className="col-md-8">
+            <TabelaSeries series={this.state.series} />
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default BoxSeries
