@@ -4,6 +4,10 @@ import './TabelaSeries.css'
 
 const ListaSeries = (props) => {
 
+	if(props.series.erro){
+		return <h1>{props.series.erro}</h1>
+	}
+
 	return (
 		<div className="card-body card-body-flex">
 			{props.series.map(serie => {

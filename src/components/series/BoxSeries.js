@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import FormularioSeries from './FormularioSeries'
 import TabelaSeries from './TabelaSeries'
-
-
+import { getToken } from '../../services/auth-service'
 class BoxSeries extends Component {
 
   constructor() {
@@ -13,7 +12,18 @@ class BoxSeries extends Component {
   }
 
   async componentDidMount() {
-    let resposta = await fetch('http://localhost:3000/series')
+    const token = getToken()
+    console.log(token)
+    const params = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + getToken()
+      }
+    }
+    let resposta = 
+      await fetch('http://localhost:3000/series',params)
     const series = await resposta.json()
     this.setState({ series: series })
   }
@@ -25,7 +35,8 @@ class BoxSeries extends Component {
       method: method,
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        authorization: getToken()
       },
       body: JSON.stringify(serie)
     }
@@ -57,7 +68,10 @@ class BoxSeries extends Component {
   deleta = async (id) => {
     const seriesAtual = this.state.series
 		const params = {
-			method: 'DELETE',
+      method: 'DELETE',
+      headers: {
+        authorization: getToken()
+      }
 		}
 		const retorno = await 
 			fetch('http://localhost:3000/series/' + id,params)
