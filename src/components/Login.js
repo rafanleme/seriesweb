@@ -27,33 +27,16 @@ export default class Login extends Component {
 	}
 
 	signIn = async (e) => {
-		e.preventDefault()
-		const { email, senha } = this.state
-		const params = {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: email,
-				senha: senha
-			})
-		}
 		try {
-			const retorno
-				= await fetch('http://localhost:3000/auth/autenticar', params)
-
-			if(retorno.status === 400){
+			e.preventDefault()
+			const usuario = this.state
+			delete usuario.msgErro
+			const retorno = await signIn(usuario)
+			if (retorno.status === 400) {
 				const erro = await retorno.json()
-				return this.setState({msgErro: erro.erro})
+				return this.setState({ msgErro: erro.erro })
 			}
-
-			if(retorno.ok){
-				const resposta = await retorno.json()
-				signIn(resposta)
-				this.props.history.push('/')
-			}
+			if (retorno.ok) this.props.history.push('/')
 
 		} catch (e) {
 			console.log(e)

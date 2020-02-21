@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import FormularioSeries from './FormularioSeries'
 import TabelaSeries from './TabelaSeries'
 import { getToken } from '../../services/auth-service'
+import { inserir, 
+  atualizar, 
+  listar, 
+  remover } from '../../services/series-service'
+
 class BoxSeries extends Component {
 
   constructor() {
@@ -12,53 +17,32 @@ class BoxSeries extends Component {
   }
 
   async componentDidMount() {
-    const token = getToken()
-    console.log(token)
-    const params = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: "Bearer " + getToken()
-      }
+    try {
+      const retorno = await listar()
+      const series = await retorno.json()
+      this.setState({ series: series })
+    } catch (erro) {
+      console.log(erro)
     }
-    let resposta = 
-      await fetch('http://localhost:3000/series',params)
-    const series = await resposta.json()
-    this.setState({ series: series })
   }
 
   enviaDados = async (serie) => {
-    console.log('enviando dados....')
-    const method = serie.id ? 'PUT' : 'POST'
-    const params = {
-      method: method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        authorization: getToken()
-      },
-      body: JSON.stringify(serie)
-    }
-    const urlParam = serie.id || ''
+    console.log(serie)
     try {
-      const retorno =
-        await fetch('http://localhost:3000/series/' + urlParam, params)
-      console.log('enviado com sucesso')
-      serie = await retorno.json()
+      let retorno = ''
+      if(serie.id) retorno = await atualizar(serie)
+      else retorno = await inserir(serie)
       if (retorno.status === 201) {
         return this.setState({
           series: [...this.state.series, serie],
-          serie: this.novaSerie
         })
       }
-      if(retorno.status === 200){
+      if (retorno.status === 200) {
         this.setState({
-          series: this.state.series.map(s => s.id == serie.id ? serie : s ),
-          serie: this.novaSerie
+          series: this.state.series.map(s => s.id == serie.id ? serie : s),
         })
       }
-      
+
     } catch (erro) {
       console.log(erro)
     }
@@ -67,22 +51,15 @@ class BoxSeries extends Component {
 
   deleta = async (id) => {
     const seriesAtual = this.state.series
-		const params = {
-      method: 'DELETE',
-      headers: {
-        authorization: getToken()
-      }
-		}
-		const retorno = await 
-			fetch('http://localhost:3000/series/' + id,params)
-		if(retorno.status === 204){
-			this.setState({
+    const retorno = await remover(id)
+    if (retorno.status === 204) {
+      this.setState({
         series: seriesAtual.filter((serie) => {
           return serie.id !== id
         })
       })
-		}
-	}
+    }
+  }
 
   render() {
     return (
@@ -92,10 +69,10 @@ class BoxSeries extends Component {
             <FormularioSeries enviaDados={this.enviaDados} />
           </div>
           <div className="col-md-8">
-            <TabelaSeries 
-              series={this.state.series} 
+            <TabelaSeries
+              series={this.state.series}
               deleta={this.deleta}
-              />
+            />
           </div>
         </div>
       </div>
