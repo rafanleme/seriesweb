@@ -11,6 +11,7 @@ const ListaSeries = (props) => {
 	return (
 		<div className="card-body card-body-flex">
 			{props.series.map(serie => {
+				console.log(serie.foto)
 				return (
 					<div className="card card-serie" key={serie.id}>
 						<div className="card-header">
@@ -20,7 +21,7 @@ const ListaSeries = (props) => {
 							</h6>
 						</div>
 						<div className="card-body">
-							<img src="/logo192.png" className="card-img" />
+							<img src={'http://localhost:3000/fotos/' + serie.foto} className="card-img" />
 						</div>
 						<div className="card-footer">
 							{serie.temporadas}
@@ -79,7 +80,7 @@ class TabelaSeries extends Component {
 
 		return (
 			<div className='card'>
-				<div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
@@ -92,7 +93,7 @@ class TabelaSeries extends Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								<img src='/logo192.png' className='card-img'/>
+								<img src={'http://localhost:3000/fotos/' + serieDetalhe.foto} className='card-img'/>
 								<h5>{serieDetalhe.temporadas}
 								{serieDetalhe.temporadas > 1 ? ' temporadas': ' temporada'}
 								</h5>

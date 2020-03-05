@@ -16,6 +16,20 @@ export const doRequest = async (resource, method, dados = '', urlParam = '') => 
 	return await fetch(URL + resource + urlParam, params)
 }
 
+export const doDataRequest = async (resource, method, dados = '', urlParam = '') => {
+	const data = new FormData()
+	console.log(dados.foto)
+	data.append('foto', dados.foto)
+	const params = {
+		method: method,
+		headers: {
+			Authorization: 'Bearer ' + getToken()
+		},
+	}
+	params.body = data
+	return await fetch(URL + resource + urlParam, params)
+} 
+
 export const doPublicRequest = async (resource, method, dados = '', urlParam = '') => {
 	const params = {
 		method: method,

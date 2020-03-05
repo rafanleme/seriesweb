@@ -1,4 +1,4 @@
-import { doRequest } from './baseapi-service'
+import { doRequest, doDataRequest } from './baseapi-service'
 
 const RESOURCE = 'series/'
 
@@ -16,4 +16,8 @@ export const remover = (id) => {
 
 export const atualizar = (serie) => {
     return doRequest(RESOURCE, 'PUT', serie, serie.id)
+}
+
+export const uploadFoto = (serie) => {
+    return doDataRequest(RESOURCE + 'foto/', 'POST', serie, serie.id)
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './Login.css'
 import { signIn } from '../services/auth-service'
+import PubSub from 'pubsub-js'
 
 const MsgErro = (props) => {
 	return props.mensagem ? (
@@ -19,6 +20,9 @@ export default class Login extends Component {
 			senha: '',
 			msgErro: ''
 		}
+		PubSub.subscribe('session-expired',(key,msg) => {
+			this.setState({ msgErro: msg })
+		})
 	}
 
 	inputHandler = (e) => {

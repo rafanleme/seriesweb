@@ -1,8 +1,12 @@
 
 .card-serie{
-    max-width: 140px;
-    min-width: 130px;
+    max-width: 180px;
+    min-width: 150px;
     margin: 5px;
+}
+
+.card-serie img{
+    max-height: 180px;
 }
 
 .card-serie .card-footer, .card-header{
