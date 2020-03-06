@@ -30,10 +30,8 @@ class BoxSeries extends Component {
   enviaDados = async serie => {
     try {
       let retorno = "";
-      console.log(serie)
       const foto = serie.foto;
       delete serie.foto;
-      delete serie.generos;
       if (serie.id) retorno = await atualizar(serie);
       else retorno = await inserir(serie);
       if (retorno.status === 201) {

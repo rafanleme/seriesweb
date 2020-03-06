@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PubSub from "pubsub-js";
-import { listar } from "../../services/generos-service";
+import { listar as listarGenero } from "../../services/generos-service";
 
 class FormularioSeries extends Component {
   constructor() {
@@ -42,7 +42,6 @@ class FormularioSeries extends Component {
 
   enviaDados = async e => {
     e.preventDefault();
-    console.log(this.state.serie);
     await this.props.enviaDados(this.state.serie);
     this.setState(this.stateInicial);
     this.fileInput.value = "";
@@ -51,8 +50,8 @@ class FormularioSeries extends Component {
   };
 
   carregaGeneros = async () => {
-    const response = await listar();
-    if (!response.ok) console.log("Erro ao buscar os gêneros!");
+    const response = await listarGenero();
+    if (!response.ok) return console.log("Erro ao buscar os gêneros!");
 
     const generos = await response.json();
 
@@ -90,6 +89,7 @@ class FormularioSeries extends Component {
                 className="form-control"
                 id="genero"
                 name="id_genero"
+                required
                 value={this.state.serie.id_genero}
                 onChange={this.inputHandler}
               >
