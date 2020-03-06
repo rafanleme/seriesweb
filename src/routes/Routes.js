@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -9,7 +9,7 @@ import BoxSeries from '../components/series/BoxSeries'
 import Autores from '../components/Autores'
 import Home from '../components/Home'
 import Login from '../components/Login'
-import Navbar from '../components/Navbar'
+import {NavBar} from '../components/Navbar'
 import { isSignedIn } from '../services/auth-service'
 
 const NotFound = () => {
@@ -26,7 +26,7 @@ const PrivateRoutes = ({ component: Component, ...rest }) => {
 			render={props =>
 				isSignedIn() ? (
 					<div>
-						<Navbar />
+						<NavBar />
 						<Component {...props} />
 					</div>
 				) : (

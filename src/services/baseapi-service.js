@@ -18,7 +18,6 @@ export const doRequest = async (resource, method, dados = '', urlParam = '') => 
 
 export const doDataRequest = async (resource, method, dados = '', urlParam = '') => {
 	const data = new FormData()
-	console.log(dados.foto)
 	data.append('foto', dados.foto)
 	const params = {
 		method: method,

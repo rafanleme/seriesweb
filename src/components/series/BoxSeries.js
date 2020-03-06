@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import FormularioSeries from "./FormularioSeries";
 import TabelaSeries from "./TabelaSeries";
-import { getToken } from "../../services/auth-service";
 import {
   inserir,
   atualizar,
@@ -31,6 +30,7 @@ class BoxSeries extends Component {
   enviaDados = async serie => {
     try {
       let retorno = "";
+      console.log(serie)
       const foto = serie.foto;
       delete serie.foto;
       delete serie.generos;
@@ -48,17 +48,15 @@ class BoxSeries extends Component {
         });
       }
       if (retorno.status === 200) {
-        this.componentDidMount()
-        // this.setState({
-        //   series: this.state.series.map(s => {
-        //     console.log(s)
-        //     if(s.id == serie.id){
-        //       serie.foto = s.foto
-        //       return serie
-        //     }
-        //     return s
-        //   })
-        // });
+        this.setState({
+          series: this.state.series.map(s => {
+            if(s.id == serie.id){
+              serie.foto = s.foto
+              return serie
+            }
+            return s
+          })
+        });
       }
     } catch (erro) {
       console.log(erro);

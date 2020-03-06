@@ -51,7 +51,7 @@ export default class Login extends Component {
 		return (
 			<div className="body">
 				<form className="form-signin" onSubmit={this.signIn}>
-					<img class="mb-4" src="/logo192.png" alt="" width="72" height="72"></img>
+					<img class="mb-4" alt='logo' src="/logo192.png" width="72" height="72"></img>
 					<h1 className="h3 mb-3 font-weight-normal">Por favor, faça login</h1>
 					<MsgErro mensagem={this.state.msgErro} />
 					<label for="inputEmail" className="sr-only">E-mail</label>

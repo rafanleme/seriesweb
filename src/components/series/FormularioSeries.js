@@ -17,14 +17,15 @@ class FormularioSeries extends Component {
     };
 
     this.state = {
-		...this.stateInicial,
-		generos:[]
-	}
+      ...this.stateInicial,
+      generos: []
+    };
 
     PubSub.subscribe("editing", (msg, serie) => {
       //tira obrigatoriedade de enviar uma foto na edição
       this.fileInput.required = false;
-      this.setState({serie});
+      this.setState({ serie });
+      console.log(this.state.serie);
     });
 
     this.fileInput = "";
@@ -32,19 +33,20 @@ class FormularioSeries extends Component {
 
   inputHandler = e => {
     const { name, value } = e.target;
-    this.setState({serie: {...this.state.serie, [name]: value  } });
+    this.setState({ serie: { ...this.state.serie, [name]: value } });
   };
 
   fileHandler = e => {
-    this.setState({serie: {...this.state.serie,  foto: e.target.files }});
+    this.setState({ serie: { ...this.state.serie, foto: e.target.files } });
   };
 
   enviaDados = async e => {
     e.preventDefault();
+    console.log(this.state.serie);
     await this.props.enviaDados(this.state.serie);
     this.setState(this.stateInicial);
     this.fileInput.value = "";
-	this.fileInput.required = true;
+    this.fileInput.required = true;
     delete this.state.id;
   };
 
@@ -65,7 +67,9 @@ class FormularioSeries extends Component {
   render() {
     return (
       <div className="card">
-        <div className="card-header">Cadastro de Series</div>
+        <div className="card-header">
+          <h5 className="text-center">Cadastro de Series</h5>
+        </div>
         <div className="card-body">
           <form method="post" onSubmit={this.enviaDados}>
             <div className="form-group">
@@ -86,7 +90,7 @@ class FormularioSeries extends Component {
                 className="form-control"
                 id="genero"
                 name="id_genero"
-				value={this.state.serie.id_genero}
+                value={this.state.serie.id_genero}
                 onChange={this.inputHandler}
               >
                 <option value="">Selecione</option>
@@ -130,7 +134,7 @@ class FormularioSeries extends Component {
                 type="file"
                 id="foto"
                 name="foto"
-				required
+                required
                 className="form-control"
                 ref={ref => (this.fileInput = ref)}
                 onChange={this.fileHandler}
